@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
 import Table from 'react-bootstrap/Table';
 
@@ -9,7 +9,7 @@ import styles from './ModelGrid.module.scss';
 const ModelGrid = (props) => {
   const [data, setData] = useState([]);
 
-  const load = props.load ? props.load : () => {
+  const load = useCallback(props.load ? props.load : () => {
     api.get('/' + props.model.toLowerCase())
       .then(response => {
         setData(response.data);
@@ -17,11 +17,11 @@ const ModelGrid = (props) => {
       .catch(error => {
         console.log(error);
       });
-  };
+  }, [props.load, props.model]);
 
   useEffect(() => {
     load();
-  }, []);
+  }, [load]);
 
   return (
     <Table className={styles.ModelGrid}>
