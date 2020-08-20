@@ -1,0 +1,44 @@
+import React, { useState, useEffect } from 'react';
+
+import Table from 'react-bootstrap/Table';
+
+import api from '../../axios/api';
+
+import styles from './ModelGrid.module.scss';
+
+const ModelGrid = (props) => {
+  const [data, setData] = useState([]);
+
+  const load = props.load ? props.load : () => {
+    api.get('/' + props.model.toLowerCase())
+      .then(response => {
+        setData(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    load();
+  }, []);
+
+  return (
+    <Table className={styles.ModelGrid}>
+      <thead>
+        <tr>
+          { props.cols.map((col, i) => <td key={i}>{ col.title }</td>) }
+        </tr>
+      </thead>
+      <tbody>
+        { data.map((row, i) => (
+          <tr key={i}>
+          { props.cols.map((col, j) => <td key={j}>{ row[col.field] }</td>) }
+          </tr>
+        )) }
+      </tbody>
+    </Table>
+  );
+}
+
+export default ModelGrid;

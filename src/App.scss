@@ -1,0 +1,16 @@
+$theme-colors: (
+  "primary": #00bcd4,
+  "danger": #dd2c00,
+  "warning": #ff5722,
+  "info": #b2ebf2
+);
+
+@import "~bootstrap/scss/bootstrap";
+
+html, body, div#root {
+  height: 100%;
+}
+
+.nav-link.active {
+  color: #ff5722;
+}
